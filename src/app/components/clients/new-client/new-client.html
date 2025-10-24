@@ -1,0 +1,130 @@
+<div class="card">
+    <div class="card-header">
+        Add new client
+    </div>
+    <div class="card-body">
+        <form [formGroup]="newClientForm" (ngSubmit)="submitForm()">
+            <div class="mb-3">
+                <label for="" class="form-label">Company name</label>
+                <input type="text" name="" id="" 
+                    class="form-control"
+                    formControlName="company_name"
+                    [class.is-invalid]="! newClientForm.get('company_name')?.valid && newClientForm.get('company_name')?.touched"
+                    >
+                    <div class="helper-block" *ngIf="! newClientForm.get('company_name')?.valid && newClientForm.get('company_name')?.touched">Company name is required and has to be between 2 and 30 characters long</div>
+            </div>
+            <div class="mb-3">
+                <label for="" class="form-label">Company code</label>
+                <input type="text" name="" id="" 
+                    class="form-control"
+                    formControlName="company_code"
+                    [class.is-invalid]="! newClientForm.get('company_code')?.valid && newClientForm.get('company_code')?.touched"
+                    >
+                    <div class="helper-block" *ngIf="! newClientForm.get('company_code')?.valid && newClientForm.get('company_code')?.touched">Company code can only be numerical</div>
+            </div>
+            <div class="mb-3">
+                <label for="" class="form-label">VAT registration code</label>
+                <input type="text" name="" id="" 
+                    class="form-control"
+                    formControlName="vat_code"
+                    [class.is-invalid]="! newClientForm.get('vat_code')?.valid && newClientForm.get('vat_code')?.touched"
+                    >
+                    <div class="helper-block" *ngIf="! newClientForm.get('vat_code')?.valid && newClientForm.get('vat_code')?.touched">VAT registration code can only be numerical, but can start with LT</div>
+            </div>
+            <div class="mb-3">
+                <label for="" class="form-label">Address</label>
+                <input type="text" name="" id="" 
+                    class="form-control"
+                    formControlName="address"
+                    >
+            </div>
+            <div class="mb-3">
+                <label for="" class="form-label">Email address</label>
+                <input type="text" name="" id="" 
+                    class="form-control"
+                    formControlName="email"
+                    [class.is-invalid]="! newClientForm.get('email')?.valid && newClientForm.get('email')?.touched"
+                    >
+                    <div class="helper-block" *ngIf="! newClientForm.get('email')?.valid && newClientForm.get('email')?.touched">Email address is required and has to be valid</div>
+            </div>
+            <div class="mb-3">
+                <label for="" class="form-label">Phone number</label>
+                <input type="text" name="" id="" 
+                    class="form-control"
+                    placeholder="+370XXXXXXXX"
+                    formControlName="phone_number"
+                    [class.is-invalid]="! newClientForm.get('phone_number')?.valid && newClientForm.get('phone_number')?.touched"
+                    >
+                    <div class="helper-block" *ngIf="! newClientForm.get('phone_number')?.valid && newClientForm.get('phone_number')?.touched">Phone number has to be valid</div>
+            </div>
+            <div class="mb-3">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <label for="" class="form-label mb-0">Contacts</label>
+                    <button type="button" class="btn btn-primary" (click)="addContact()">New contact</button>
+                </div>
+                <div formArrayName="contacts">
+                    <div *ngFor="let contact of contacts; let i=index" class="card mb-4" [formGroupName]="i">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0">Contact {{i + 1}}</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group row mb-2">
+                                <label [for]="'first_name-' + i" class="col-sm-2 col-form-label">First name</label>
+                                <div class="col-sm-10">
+                                    <input type="text"
+                                        [id]="'first_name-' + i"
+                                        class="form-control"
+                                        formControlName="first_name"
+                                        [class.is-invalid]="! contact.get('first_name')?.valid && contact.get('first_name')?.touched">
+                                        <div class="helper-block" *ngIf="! contact.get('first_name')?.valid && contact.get('first_name')?.touched">First name is required</div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-2">
+                                <label [for]="'last_name-' + i" class="col-sm-2 col-form-label">Last name</label>
+                                <div class="col-sm-10">
+                                    <input type="text"
+                                        [id]="'last_name-' + i"
+                                        class="form-control"
+                                        formControlName="last_name"
+                                        [class.is-invalid]="! contact.get('last_name')?.valid && contact.get('last_name')?.touched">
+                                        <div class="helper-block" *ngIf="! contact.get('last_name')?.valid && contact.get('last_name')?.touched">Last name is required</div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-2">
+                                <label [for]="'position-' + i" class="col-sm-2 col-form-label">Position</label>
+                                <div class="col-sm-10">
+                                    <input type="text"
+                                        [id]="'position-' + i"
+                                        class="form-control"
+                                        formControlName="position">
+                                </div>
+                            </div>
+                            <div class="form-group row mb-2">
+                                <label [for]="'phone_number-' + i" class="col-sm-2 col-form-label">Phone number</label>
+                                <div class="col-sm-10">
+                                    <input type="text"
+                                        [id]="'phone_number-' + i"
+                                        class="form-control"
+                                        placeholder="+370XXXXXXXX"
+                                        formControlName="phone_number"
+                                        [class.is-invalid]="! contact.get('phone_number')?.valid && contact.get('phone_number')?.touched">
+                                        <div class="helper-block" *ngIf="! contact.get('phone_number')?.valid && contact.get('phone_number')?.touched">Phone number has to be valid</div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-10">
+                                    <button type="button" class="btn btn-danger" (click)="removeContact(i)">
+                                        Remove
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-success" [disabled]="!newClientForm.valid">Register</button>
+            </div>
+        </form>
+    </div>
+</div>
