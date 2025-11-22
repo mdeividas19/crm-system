@@ -3,7 +3,13 @@
         Add new client
     </div>
     <div class="card-body">
-        <form [formGroup]="newClientForm" (ngSubmit)="submitForm()">
+        <div class="alert alert-danger mb-3" *ngIf="isError">
+            {{ errorMessage }}
+        </div>
+        <div class="alert alert-success mb-3" *ngIf="isSuccess">
+            Client was saved successfully
+        </div>
+        <form *ngIf="!isLoading && !isSuccess" [formGroup]="newClientForm" (ngSubmit)="submitForm()">
             <div class="mb-3">
                 <label for="" class="form-label">Company name</label>
                 <input type="text" name="" id="" 
@@ -123,8 +129,12 @@
                 </div>
             </div>
             <div>
-                <button type="submit" class="btn btn-success" [disabled]="!newClientForm.valid">Register</button>
+                <button type="submit" class="btn btn-success me-2" [disabled]="!newClientForm.valid">Register</button>
+                <a class="btn btn-danger" href="/">Cancel</a>
             </div>
         </form>
+        <div class="alert alert-info" *ngIf="isLoading">
+            Information is being uploaded to the server
+        </div>
     </div>
 </div>

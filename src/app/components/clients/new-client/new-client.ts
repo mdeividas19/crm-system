@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, Validators, AbstractControl } from '@angular/forms';
+import { ClientsService } from '../../../services/clients-service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-new-client',
@@ -11,8 +13,12 @@ import { FormArray, FormControl, FormGroup, ReactiveFormsModule, ValidationError
 export class NewClient {
   
   public newClientForm:FormGroup;
+  public isLoading = false;
+  public isError = false;
+  public isSuccess = false;
+  public errorMessage = "";
   
-  constructor(){
+  constructor(private clientsService:ClientsService, private router:Router){
     this.newClientForm = new FormGroup({
       'company_name': new FormControl(null, [Validators.required, Validators.minLength(2), Validators.maxLength(30)]),
       'company_code': new FormControl(null, [this.validateCompanyCode]),
@@ -32,7 +38,25 @@ export class NewClient {
 
   }
 
-  public submitForm(){
+  public submitForm() {
+    this.isLoading = true;
+    this.isError = false;
+    this.isSuccess = false;
+    this.clientsService.addItem(this.newClientForm.value).subscribe({
+      next:()=>{
+        this.isLoading = false;
+        this.isSuccess = true;
+        setTimeout(() => {
+          this.router.navigate(['']);
+        }, 1500);
+      },
+      error:()=>{
+        this.isError = true;
+        this.isLoading = false;
+        this.errorMessage = "Error occured while data was being uploaded"
+      }
+    });
+    console.log("OK");
     console.log("Save data");
     console.log(this.newClientForm.value);
     console.log(this.newClientForm.valid);

@@ -1,0 +1,46 @@
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <span>Clients</span>
+        <a class="btn btn-primary btn-sm" href="new">New Client</a>
+    </div>
+    <div class="card-body">
+        <div class="alert alert-danger mb-3" *ngIf="isError">
+            {{ errorMessage }}
+        </div>
+        <table class="table" *ngIf="!isLoading && !isError">
+            <thead>
+                <tr>
+                    <th>Nr.</th>
+                    <th>Company name</th>
+                    <th>Company code</th>
+                    <th>VAT registration code</th>
+                    <th>Address</th>
+                    <th>Email address</th>
+                    <th>Phone number</th>
+                    <th>Contacts</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let client of clients; let i=index">
+                    <td>{{ i+1 }}</td>
+                    <td>{{ client.company_name }}</td>
+                    <td>{{ client.company_code }}</td>
+                    <td>{{ client.vat_code }}</td>
+                    <td>{{ client.address }}</td>
+                    <td>{{ client.email }}</td>
+                    <td>{{ client.phone_number }}</td>
+                    <td>
+                        <div *ngFor="let contact of client.contacts">
+                            <span>{{ contact.first_name }} {{ contact.last_name }} </span>
+                            <span *ngIf="contact.position">({{ contact.position }}) </span>
+                            <span *ngIf="contact.phone_number">{{ contact.phone_number }}</span>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="alert alert-info" *ngIf="isLoading">
+            Data is being retrieved from the server
+        </div>
+    </div>
+</div>
